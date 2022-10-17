@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Onboarding - Everhour</title>
+    <link rel="stylesheet" href="./style/wcnavbar.css" />
+    <link rel="stylesheet" href="./style/welcome.css" />
+  </head>
+  <body>
+    <div id="navbar">
+      <div>
+        <img src="https://app.everhour.com/assets/img/everhour_48.svg" alt="" />
+      </div>
+      <div id="showName"></div>
+    </div>
+    <div id="main">
+      <div id="container">
+        <h2>Welcome to Everhour</h2>
+        <p>Add your info to make collaborating easy</p>
+        <form id="form">
+          <p>Full Name</p>
+          <input type="text" id="name" placeholder="e.g. Nrupul Dev" />
+          <p>Job Title</p>
+          <input type="text" id="title" placeholder="e.g. Co-Founder / CEO" />
+          <p>Phone</p>
+          <input type="number" id="phone" placeholder="e.g. 8670113037" />
+        </form>
+        <div id="term">
+          <input type="checkbox" id="checkbox" onchange="check();" />
+          <p>
+            I have read and agree to the
+            <a href="https://everhour.com/terms">Terms</a> and
+            <a href="https://everhour.com/policy">Privacy Policy</a>
+          </p>
+        </div>
+
+        <button onclick="storeData()" id="btn">Continue</button>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  function constructor(u, t, m) {
+    this.username = u;
+    this.jobtitel = t;
+    this.phoneNumber = m;
+  }
+
+  let btn = document.getElementById("btn");
+  let checkbox = document.getElementById("checkbox");
+  function check() {
+    if (checkbox.checked) {
+      btn.style.backgroundColor = "#24be6a";
+      btn.innerHTML = null;
+      let a = document.createElement("a");
+      a.innerText = "Continue";
+      a.setAttribute("href", "integrate.html");
+      btn.append(a);
+    } else {
+      btn.style.backgroundColor = "#57bb71";
+      btn.setAttribute("disabled");
+    }
+  }
+  let form = document.getElementById("form");
+  let dataLS = JSON.parse(localStorage.getItem("userdata")) || [];
+  let storeData = () => {
+    let dataObj = new constructor(
+      form.name.value,
+      form.title.value,
+      form.phone.value
+    );
+    dataLS.push(dataObj);
+    localStorage.setItem("userdata", JSON.stringify(dataObj));
+  };
+
+  let data = JSON.parse(localStorage.getItem("credentials"));
+  data.forEach((el) => {
+    document.getElementById("showName").innerHTML = null;
+    let p = document.createElement("p");
+    p.innerText = el.email[0];
+    document.getElementById("showName").append(p);
+  });
+</script>
